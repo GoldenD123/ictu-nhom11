@@ -1,0 +1,8 @@
+
+{
+  "name": "CV Job Finder AI",
+  "description": "An AI-powered job search platform that analyzes your CV to find the perfect career match using Gemini 3.",
+  "requestFramePermissions": [
+    "camera"
+  ]
+}
