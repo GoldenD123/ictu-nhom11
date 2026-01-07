@@ -1,34 +1,37 @@
 
 export interface User {
   id: string;
-  name: string;
   email: string;
+  name: string;
+  role: 'candidate' | 'employer';
   avatar?: string;
+  bio?: string;
+  skills?: string[];
 }
 
-export interface JobRecommendation {
+export interface Job {
   id: string;
   title: string;
   company: string;
+  logo: string;
   location: string;
-  salaryRange: string;
-  matchScore: number;
+  salary: string;
+  type: 'Full-time' | 'Part-time' | 'Remote' | 'Contract';
   description: string;
-  requiredSkills: string[];
-  whyMatch: string;
+  requirements: string[];
+  postedAt: string;
+  category: string;
 }
 
-export interface CVAnalysis {
-  name: string;
-  summary: string;
-  skills: string[];
-  experienceLevel: string;
-  recommendedJobs: JobRecommendation[];
-}
-
-export interface AuthContextType {
+export interface AuthState {
   user: User | null;
-  login: (email: string, name: string) => void;
-  logout: () => void;
   isAuthenticated: boolean;
+  isLoading: boolean;
+}
+
+export interface CVAnalysisResult {
+  summary: string;
+  topSkills: string[];
+  suggestedRoles: string[];
+  score: number;
 }

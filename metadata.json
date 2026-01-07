@@ -1,7 +1,7 @@
 
 {
-  "name": "CV Job Finder AI",
-  "description": "An AI-powered job search platform that analyzes your CV to find the perfect career match using Gemini 3.",
+  "name": "CareerAI - Smart Job Portal",
+  "description": "A modern job search platform that uses AI to analyze CVs and match candidates with their dream careers. Built with React, TypeScript, and Gemini API.",
   "requestFramePermissions": [
     "camera"
   ]
