@@ -1,0 +1,9 @@
+
+{
+  "name": "JobMatch AI - Tìm việc làm thông minh",
+  "description": "Nền tảng tìm kiếm việc làm sử dụng AI để phân tích CV và gợi ý công việc phù hợp nhất cho ứng viên.",
+  "requestFramePermissions": [
+    "camera",
+    "microphone"
+  ]
+}
