@@ -2,11 +2,17 @@ import mongoose from "mongoose";
 
 export const connectDB = async () => {
   try {
-    await mongoose.connect(process.env.MONGODB_CONNECTIONSTRING);
+    const uri = process.env.MONGODB_CONNECTIONSTRING;
 
-    console.log("Liên kết CSDL thành công!");
+    if (!uri) {
+      throw new Error("❌ MONGODB_CONNECTIONSTRING is not defined");
+    }
+
+    await mongoose.connect(uri);
+
+    console.log("✅ Liên kết CSDL MongoDB thành công!");
   } catch (error) {
-    console.error("Lỗi khi kết nối CSDL:", error);
-    process.exit(1); // exit with error
+    console.error("❌ Lỗi khi kết nối CSDL:", error);
+    process.exit(1);
   }
 };
