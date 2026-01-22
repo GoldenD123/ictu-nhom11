@@ -1,8 +1,14 @@
 import { GoogleGenAI } from "@google/genai";
 
-const ai = new GoogleGenAI({
-  apiKey: process.env.GEMINI_API_KEY,
-});
+const getAI = () => {
+  if (!process.env.GEMINI_API_KEY) {
+    throw new Error("GEMINI_API_KEY not found");
+  }
+
+  return new GoogleGenAI({
+    apiKey: process.env.GEMINI_API_KEY,
+  });
+};
 
 // POST /api/ai/chat
 export const chatWithAI = async (req, res) => {
@@ -15,6 +21,8 @@ Jobs: ${JSON.stringify(jobs)}
 `;
 
   try {
+    const ai = getAI(); // ✅ tạo tại đây
+
     const response = await ai.models.generateContent({
       model: "gemini-3-flash-preview",
       contents: query,
@@ -26,6 +34,7 @@ Jobs: ${JSON.stringify(jobs)}
 
     res.json({ reply: response.text });
   } catch (err) {
-    res.status(500).json({ message: "AI error" });
+    console.error(err);
+    res.status(500).json({ message: err.message || "AI error" });
   }
 };
