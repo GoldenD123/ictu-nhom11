@@ -7,6 +7,7 @@ import React, {
 } from "react";
 import { User, AuthState } from "../types";
 import { API_BASE_URL } from "../config";
+import { toast } from "react-toastify";
 
 interface AuthContextType extends AuthState {
   login: (email: string, pass: string) => Promise<void>;
@@ -28,25 +29,51 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
 
   useEffect(() => {
     const storedUser = localStorage.getItem("jobmatch_user");
-    if (storedUser) {
+
+    if (!storedUser || storedUser === "undefined") {
+      localStorage.removeItem("jobmatch_user");
+      setState((prev) => ({ ...prev, isLoading: false }));
+      return;
+    }
+
+    try {
+      const user = JSON.parse(storedUser);
+
       setState({
-        user: JSON.parse(storedUser),
+        user,
         isAuthenticated: true,
         isLoading: false,
       });
-    } else {
+    } catch (e) {
+      console.error("Invalid stored user:", storedUser);
+      localStorage.removeItem("jobmatch_user");
       setState((prev) => ({ ...prev, isLoading: false }));
     }
   }, []);
 
   const login = async (email: string, pass: string) => {
     try {
-      const response = await fetch(`${API_BASE_URL}/auth/login`, {
+      console.log("call login");
+      const response = await fetch(`${API_BASE_URL}/api/auth/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password: pass }),
       });
+      if (response.status == 401) {
+        toast.error("sai ten dang nhap hoac mat khau");
+
+        return;
+      }
+
+      if (!response) {
+        throw new Error("API did not return user");
+      }
+      console.log(JSON.stringify(response, null, 2));
       const data = await response.json();
+
+      if (!data?.user) {
+        throw new Error("API did not return user");
+      }
 
       localStorage.setItem("jobmatch_user", JSON.stringify(data.user));
       setState({ user: data.user, isAuthenticated: true, isLoading: false });

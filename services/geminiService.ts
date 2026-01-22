@@ -3,10 +3,10 @@ import { API_BASE_URL } from "../config";
 
 export const matchJobsWithCV = async (
   cvText: string,
-  jobs: Job[]
+  jobs: Job[],
 ): Promise<MatchResult[]> => {
   try {
-    const response = await fetch(`${API_BASE_URL}/ai/match`, {
+    const response = await fetch(`http://localhost:5000/api/ai/match`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ cvText, jobs }),
@@ -28,10 +28,10 @@ export const matchJobsWithCV = async (
 export const chatWithAI = async (
   query: string,
   jobs: Job[],
-  cvContent?: string
+  cvContent?: string,
 ): Promise<string> => {
   try {
-    const response = await fetch(`${API_BASE_URL}/ai/chat`, {
+    const response = await fetch(`${API_BASE_URL}/api/ai/chat`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ query, jobs, cvContent }),
@@ -39,7 +39,7 @@ export const chatWithAI = async (
 
     if (!response.ok) throw new Error("Backend Error");
     const data = await response.json();
-    return data.text || "Xin lỗi, tôi không thể xử lý yêu cầu này.";
+    return data.reply || "Xin lỗi, tôi không thể xử lý yêu cầu này.";
   } catch (error) {
     return "Lỗi: Không thể kết nối với server Backend của bạn.";
   }
