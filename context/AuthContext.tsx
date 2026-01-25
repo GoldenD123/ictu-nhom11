@@ -8,7 +8,6 @@ import React, {
 import { User, AuthState } from "../types";
 import { API_BASE_URL } from "../config";
 import { toast } from "react-toastify";
-
 interface AuthContextType extends AuthState {
   login: (email: string, pass: string) => Promise<void>;
   register: (email: string, pass: string, name: string) => Promise<void>;
@@ -61,7 +60,6 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
       });
       if (response.status == 401) {
         toast.error("sai ten dang nhap hoac mat khau");
-
         return;
       }
 
@@ -77,6 +75,11 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
 
       localStorage.setItem("jobmatch_user", JSON.stringify(data.user));
       setState({ user: data.user, isAuthenticated: true, isLoading: false });
+      if (data.user.role != "admin") {
+        return window.location.replace("/");
+      } else {
+        return window.location.replace("/admin/dashboard#/admin/dashboard");
+      }
     } catch (error) {
       console.error("Login failed", error);
       throw error;
@@ -85,7 +88,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
 
   const register = async (email: string, pass: string, name: string) => {
     try {
-      const response = await fetch(`${API_BASE_URL}/auth/register`, {
+      const response = await fetch(`${API_BASE_URL}/api/auth/register`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password: pass, fullName: name }),
@@ -94,6 +97,15 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
 
       localStorage.setItem("jobmatch_user", JSON.stringify(data.user));
       setState({ user: data.user, isAuthenticated: true, isLoading: false });
+
+      if (response.status == 201) {
+        toast.success(data.message);
+
+        return;
+      } else {
+        toast.error(data.message);
+        return;
+      }
     } catch (error) {
       console.error("Register failed", error);
       throw error;

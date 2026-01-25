@@ -16,7 +16,7 @@ export const matchJobsWithCV = async (
     return await response.json();
   } catch (error) {
     console.error("Match Error:", error);
-    // Fallback if backend is down
+
     return jobs.map((j) => ({
       jobId: j.id,
       matchScore: 0,

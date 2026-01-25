@@ -1,25 +1,25 @@
 import mongoose from "mongoose";
 
-const userSchema = new mongoose.Schema(
+const jobschema = new mongoose.Schema(
   {
-    email: {
+    CName: {
       type: String,
       required: true,
       unique: true,
     },
-    role: {
+    title: {
       type: String,
       required: true,
     },
-    passwordHash: {
+    add: {
       type: String,
       required: true,
     },
-    fullName: {
+    salary: {
       type: String,
       required: true,
     },
-    cvContent: {
+    des: {
       type: String,
       default: "",
     },
@@ -27,4 +27,4 @@ const userSchema = new mongoose.Schema(
   { timestamps: true },
 );
 
-export default mongoose.model("User", userSchema);
+export default mongoose.model("jobs", jobschema);

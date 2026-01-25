@@ -1,18 +1,18 @@
-
 export interface User {
   id: string;
   email: string;
+  role: string;
   fullName: string;
   cvContent?: string;
 }
 
 export interface Job {
-  id: string;
+  _id: string;
   title: string;
-  company: string;
-  location: string;
+  CName: string;
+  add: string;
   salary: string;
-  description: string;
+  des: string;
   requirements: string[];
   tags: string[];
   logo: string;
