@@ -4,6 +4,6 @@ import { authMiddleware } from "../middleware/authMiddleware.js";
 
 const router = express.Router();
 
-router.put("/cv", authMiddleware, updateCV);
+router.put("/cv", updateCV);
 
 export default router;

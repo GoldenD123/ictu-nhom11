@@ -184,4 +184,22 @@ export const deleteJob = async (req, res) => {
     console.error("[deleteJob]", err);
     return res.status(500).json({ RC: 500, RM: "Internal server error" });
   }
-};
+}
+
+// //
+// export const updateCV = async (req, res) => {
+//   try {
+//     const userId = req.user.id; // lấy từ JWT
+//     const { cvContent } = req.body;
+
+//     // update DB
+//     await User.update(
+//       { cvContent },
+//       { where: { id: userId } }
+//     );
+
+//     res.json({ message: "Update CV success" });
+//   } catch (err) {
+//     res.status(500).json({ message: "Update CV failed" });
+//   }
+// };

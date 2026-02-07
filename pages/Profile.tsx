@@ -16,17 +16,22 @@ const Profile: React.FC = () => {
       setCvInput(user.cvContent);
     }
   }, [user]);
+// new
+  const handleSaveCV = async () => {
+  if (!cvInput.trim()) return;
 
-  const handleSaveCV = () => {
+  try {
     setIsSaving(true);
-    // Giả lập độ trễ mạng để tạo cảm giác chuyên nghiệp
-    setTimeout(() => {
-      updateCV(cvInput);
-      setIsSaving(false);
-      setShowSuccess(true);
-      setTimeout(() => setShowSuccess(false), 3000);
-    }, 600);
-  };
+    await updateCV(cvInput); // 🔥 lưu DB thật
+    setShowSuccess(true);
+    setTimeout(() => setShowSuccess(false), 3000);
+  } catch (err) {
+    alert("Lưu CV thất bại");
+  } finally {
+    setIsSaving(false);
+  }
+};
+
 
   const extractTextFromPDF = async (arrayBuffer: ArrayBuffer): Promise<string> => {
     const pdfjsLib = (window as any).pdfjsLib;

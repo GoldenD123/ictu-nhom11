@@ -121,7 +121,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
     if (!state.user) return;
 
     try {
-      const response = await fetch(`${API_BASE_URL}/user/cv`, {
+      const response = await fetch(`${API_BASE_URL}/api/user/cv`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ userId: state.user.id, cvContent: content }),
